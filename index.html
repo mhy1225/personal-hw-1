@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>實用與藝術性的權衡：語文競賽如何形塑書法教育</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section id="game-section">
+        <div class="game-header">
+            <h1 class="title"><span class="seal">引言</span> 墨香尋蹤：字體配對</h1>
+            <p class="instruction">在語文競賽中，五大字體成為賽場主流。<br>請點選下方「書法家名牌」，再點選對應風格的「米字格」完成配對。</p>
+        </div>
+        
+        <div class="drop-zones">
+            <div class="drop-zone mizi-ge" data-match="ou">
+                <div class="hint">結構嚴謹<br>險勁瘦硬</div>
+            </div>
+            <div class="drop-zone mizi-ge" data-match="liu">
+                <div class="hint">結體遒勁<br>骨力挺拔</div>
+            </div>
+            <div class="drop-zone mizi-ge" data-match="chu">
+                <div class="hint">空靈飛動<br>筆意顧盼</div>
+            </div>
+            <div class="drop-zone mizi-ge" data-match="yu">
+                <div class="hint">溫雅恬靜<br>外柔內剛</div>
+            </div>
+            <div class="drop-zone mizi-ge" data-match="zhi">
+                <div class="hint">圓潤秀雅<br>傳承右軍</div>
+            </div>
+        </div>
+
+        <div class="draggables" id="pool">
+            <div class="drag-item" data-match="chu">褚遂良</div>
+            <div class="drag-item" data-match="ou">歐陽詢</div>
+            <div class="drag-item" data-match="zhi">智永</div>
+            <div class="drag-item" data-match="liu">柳公權</div>
+            <div class="drag-item" data-match="yu">虞世南</div>
+        </div>
+
+        <div id="result-msg"></div>
+        <div id="scroll-indicator">
+            <p>筆墨乾透，請向下展卷</p>
+            <div class="arrow">↓</div>
+        </div>
+    </section>
+
+    <section id="report-section">
+        <div class="scrolly-container">
+            <div class="sticky-visual">
+                <div id="bg-char">墨</div>
+            </div>
+            
+            <div class="scroll-content">
+                <div class="step" data-char="源">
+                    <div class="step-content">
+                        <h2>一、踏入賽場的執筆者</h2>
+                        <p>「有些人喜歡透過參加比賽追求刺激或成就感，但是我剛好不是這一類人。」對於許多參賽者而言，全國語文競賽寫字組是接觸書法的開端。這項自1946年延續至今的官辦競賽，在升學誘因與權威性加持下，為臺灣書法教育提供了明確的入門途徑與發展支點。</p>
+                    </div>
+                </div>
+
+                <div class="step" data-char="規">
+                    <div class="step-content">
+                        <h2>二、五十分鐘的極限與框架</h2>
+                        <p>五十個字，五十分鐘，不容許絲毫錯別字或敗筆。這不僅考驗書寫速度，更是一場耐力與心理素質的磨練。在限時與規正的強大壓力下，如歐陽詢、褚遂良等結構嚴謹的「唐楷」與「五體」，逐漸成為賽道上的常勝軍與主流。</p>
+                    </div>
+                </div>
+
+                <div class="step" data-char="限">
+                    <div class="step-content">
+                        <h2>三、實用導向下的審美退讓</h2>
+                        <p>「就像古人參加科舉，必須符合闈場要求。」評審以實用為導向，要求字體大小須控制在格子的七至八成。歷代碑帖中充滿靈動變化的「帖字」（如省筆、增筆與變形）往往被判定為錯字。為了求勝，字體趨於單一，藝術性在統一的標準下悄然退讓。</p>
+                    </div>
+                </div>
+
+                <div class="step" data-char="磨">
+                    <div class="step-content">
+                        <h2>四、斯巴達式集訓的重擔</h2>
+                        <p>通過初選後的集訓，宛如一場高壓考驗。週末從早到晚的限時「PK」與分區講評，讓選手面臨課業與角色的雙重衝突；指導教師亦在繁重的教學與集訓間疲於奔命。競賽在提供動機的同時，也伴隨著高度的身心耗損。</p>
+                    </div>
+                </div>
+
+                <div class="step" data-char="綻">
+                    <div class="step-content">
+                        <h2>五、離開賽場，邁向多元</h2>
+                        <p>當不再為了得獎而寫，書法終將回歸純粹的藝術。美術館透過策展讓人們重新感受書法的議題意識；青年書家走入市集，讓寫字重返日常。當語文競賽不再是唯一路徑，這門流傳千年的藝術正以多元的姿態，在當代綻放。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

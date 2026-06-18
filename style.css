@@ -1,0 +1,265 @@
+/* 基礎重置與宣紙背景設定 */
+body {
+    margin: 0;
+    font-family: 'Noto Serif TC', serif;
+    background-color: #F5F0E6; /* 仿舊宣紙底色 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    color: #2b2b2b;
+    overflow-x: hidden;
+}
+
+/* 第一區塊：遊戲區 */
+#game-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.title {
+    font-size: 2.2rem;
+    color: #1a1a1a;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.seal {
+    display: inline-block;
+    color: #a32626; /* 印泥紅 */
+    border: 2px solid #a32626;
+    padding: 2px 6px;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.instruction {
+    color: #555;
+    line-height: 1.8;
+    letter-spacing: 2px;
+}
+
+/* 米字格區域 */
+.drop-zones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    max-width: 900px;
+}
+
+.mizi-ge {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border: 2px solid #a32626;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: rgba(255,255,255,0.3);
+    transition: background 0.3s;
+}
+
+/* 繪製米字格的九宮格紅線 */
+.mizi-ge::before, .mizi-ge::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+}
+.mizi-ge::before {
+    background: linear-gradient(to right, transparent 49%, rgba(163,38,38,0.3) 49%, rgba(163,38,38,0.3) 51%, transparent 51%),
+                linear-gradient(to bottom, transparent 49%, rgba(163,38,38,0.3) 49%, rgba(163,38,38,0.3) 51%, transparent 51%);
+}
+.mizi-ge::after {
+    background: linear-gradient(45deg, transparent 49%, rgba(163,38,38,0.2) 49%, rgba(163,38,38,0.2) 51%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(163,38,38,0.2) 49%, rgba(163,38,38,0.2) 51%, transparent 51%);
+}
+
+.hint {
+    writing-mode: vertical-rl;
+    color: #777;
+    font-size: 15px;
+    letter-spacing: 3px;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.mizi-ge.has-item .hint { opacity: 0; }
+
+/* 拖曳/點擊名牌區 */
+.draggables {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    min-height: 120px;
+}
+
+.drag-item {
+    width: 100px;
+    height: 100px;
+    background: #fffdf8;
+    border: 1px solid #d4c8b8;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    writing-mode: vertical-rl;
+    letter-spacing: 4px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 2;
+}
+
+/* 點選狀態 */
+.drag-item.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(163, 38, 38, 0.4);
+    border-color: #a32626;
+}
+
+/* 放置於格子內 */
+.mizi-ge .drag-item { position: absolute; }
+
+/* 結果圖章 */
+.stamp {
+    position: absolute;
+    bottom: -8px; right: -8px;
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    background: #fff;
+    font-weight: bold;
+}
+.stamp.correct { color: #4a5d23; border: 2px solid #4a5d23; transform: rotate(-10deg); }
+.stamp.wrong { color: #a32626; border: 2px solid #a32626; transform: rotate(10deg); }
+
+#result-msg {
+    margin-top: 30px;
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.5s;
+    line-height: 1.8;
+}
+
+#scroll-indicator {
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 1s;
+    text-align: center;
+    color: #a32626;
+    font-weight: bold;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(10px); }
+    60% { transform: translateY(5px); }
+}
+
+/* 第二區塊：滾動式報導 (隱藏機制) */
+#report-section {
+    display: none; /* 由 JS 觸發顯示 */
+}
+
+.scrolly-container { position: relative; }
+
+/* 背景大字 */
+.sticky-visual {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#bg-char {
+    font-size: 50vw;
+    color: #1a1a1a;
+    opacity: 0.03;
+    font-family: "Kaiti", "BiauKai", serif; /* 楷體更具書法感 */
+    transition: opacity 0.8s ease;
+}
+
+/* 報導文字區塊 */
+.scroll-content {
+    margin-top: -100vh;
+}
+
+.step {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.step-content {
+    background: rgba(253, 251, 247, 0.95);
+    border: 1px solid #d4c8b8;
+    border-right: 6px solid #a32626; /* 仿古籍線裝書邊 */
+    padding: 50px 40px;
+    box-shadow: 5px 15px 30px rgba(0,0,0,0.06);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+    writing-mode: vertical-rl; /* 古代文青風核心：直式閱讀 */
+    line-height: 2.2;
+    letter-spacing: 2px;
+    max-height: 65vh;
+}
+
+.step-content h2 {
+    font-size: 26px;
+    color: #1a1a1a;
+    margin-left: 30px;
+    border-left: 2px solid #a32626; /* 直書的底線 */
+    padding-left: 15px;
+}
+
+.step.active .step-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* RWD: 手機版改為橫式閱讀，避免直書導致水平滑動困難 */
+@media (max-width: 768px) {
+    .step-content {
+        writing-mode: horizontal-tb;
+        border-right: 1px solid #d4c8b8;
+        border-top: 6px solid #a32626;
+        max-height: none;
+        padding: 30px 20px;
+    }
+    .step-content h2 {
+        border-left: 4px solid #a32626;
+        border-bottom: none;
+        margin-left: 0;
+        margin-bottom: 20px;
+        padding-left: 15px;
+    }
+    #bg-char { font-size: 80vw; }
+}
